@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DocumentDBTodo.SeatInput"
+             BackgroundImage="brewerbg.jpg">
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <!--<RowDefinition Height="30"/>-->
+                <!--<RowDefinition Height="auto"/>-->
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <!--<StackLayout
+        Orientation="Vertical"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand"
+        Spacing="0"
+        BackgroundColor="#0A2351"
+        HeightRequest="30">
+                <Image Source="backimage.png"
+                   HeightRequest="30"
+                   WidthRequest="30"
+               HorizontalOptions="Start">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BackButton"/>
+                    </Image.GestureRecognizers>
+
+                </Image>
+
+            </StackLayout>-->
+            <!--<Label Text="StadiYUM"
+               Grid.Row="1"
+               TextColor="#B6922E"
+               HorizontalOptions="Center"
+               Scale="4"
+               Margin="20"
+               ></Label>-->
+            <Entry x:Name="SectionEntry" 
+               Grid.Row="1"
+               Placeholder="Section Number" 
+               TextColor="#0A2351"
+               Margin="20,0,20,20"
+               ></Entry>
+            <Entry x:Name="SeatEntry"
+               Grid.Row="2"
+               Placeholder="Seat Number" 
+               TextColor="#0A2351"
+               Margin="20,0,20,20"
+               ></Entry>
+            <Button Text="Start Ordering" 
+                Grid.Row="3"
+                TextColor="#0A2351" 
+                BackgroundColor="White"
+                Clicked="SeatEntered"
+                Margin="20,0,20,20"
+                ></Button>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

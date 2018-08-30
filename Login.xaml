@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DocumentDBTodo.Login"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundImage="brewerbg.jpg">
+        <Grid Padding="20" ColumnSpacing="10" RowSpacing="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Label Text="StadiYUM"
+               TextColor="White"
+               HorizontalOptions="Center"
+               Scale="4"
+               ></Label>
+            <Entry x:Name="UsernameInput"
+               Grid.Row="2"
+               Placeholder="Username" 
+               TextColor="White" 
+               ></Entry>
+            <Entry x:Name="PasswordInput"
+               Grid.Row="3"
+               Placeholder="Password" 
+               IsPassword="True" 
+               TextColor="White" 
+               ></Entry>
+            <Button Text="Sign In" 
+                Grid.Row="4"
+                TextColor="Blue" 
+                BackgroundColor="White"
+                Clicked="Button_Clicked" 
+                ></Button>
+
+        </Grid>
+
+
+</ContentPage>
