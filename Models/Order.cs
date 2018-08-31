@@ -13,16 +13,16 @@ namespace DocumentDBTodo.Models
         [JsonProperty(PropertyName = "userId")]
 
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [JsonProperty(PropertyName = "concession")]
 
         public Concession Concession { get; set; }
         [JsonProperty(PropertyName = "isCartOrder")]
 
-        public bool IsCartOrder { get; set; }
+        public int IsCartOrder { get; set; }
         [JsonProperty(PropertyName = "isCompleted")]
 
-        public bool IsCompleted { get; set; }
+        public int IsCompleted { get; set; }
         [JsonProperty(PropertyName = "items")]
 
         public Item[] Items { get; set; }

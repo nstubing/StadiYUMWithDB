@@ -8,26 +8,29 @@
             CachingStrategy="RecycleElement">
             
     <!--Built in Cells-->
-    <ListView.ItemTemplate>
+    <!--<ListView.ItemTemplate>
         <DataTemplate>
-            <TextCell Text="{Binding Name}" TextColor="Black"/>
+                <ViewCell>
+                    <Label Text="{Binding Name}" TextColor="Black"/>
+                    <Label Text="Add to cart"/>
+                </ViewCell>
             </DataTemplate>
-    </ListView.ItemTemplate>
+    </ListView.ItemTemplate>-->
     
     <!--Custom View Cells-->
-    <!--
+    
     <ListView.ItemTemplate>
       <DataTemplate>
         <ViewCell>
           <StackLayout>
-            <Label Text="{Binding Text}" 
+            <Label Text="{Binding Name}" 
                    Style="{DynamicResource ListItemTextStyle}" />
-            <Label Text="{Binding Detail}" 
+            <Label Text="Add to cart" 
                    Style="{DynamicResource ListItemDetailTextStyle}"/>
           </StackLayout>
         </ViewCell>
       </DataTemplate>
     </ListView.ItemTemplate>
-    -->
+    
   </ListView>
 </ContentPage>

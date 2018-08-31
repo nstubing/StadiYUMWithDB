@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-
+using DocumentDBTodo.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,22 +12,28 @@ namespace DocumentDBTodo
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ListCart : ContentPage
     {
-        public ObservableCollection<string> Items { get; set; }
+        QueryManager manager;
+        public ObservableCollection<Item> Items { get; set; }
+        public double Total { get; set; }
 
         public ListCart()
         {
             InitializeComponent();
+            manager = new QueryManager();
+            Items = new ObservableCollection<Item>(manager.CartItems());
+            MyListView.ItemsSource = Items;
+            Total = GetTotal();
+            TotalLabel.Text = Total.ToString();
 
-            Items = new ObservableCollection<string>
+        }
+        public double GetTotal()
+        {
+            double thisTotal = 0;
+            foreach(Item item in Items)
             {
-                "Item 1",
-                "Item 2",
-                "Item 3",
-                "Item 4",
-                "Item 5"
-            };
-			
-			MyListView.ItemsSource = Items;
+                thisTotal += item.Price;
+            }
+            return thisTotal;
         }
 
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -39,6 +45,10 @@ namespace DocumentDBTodo
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;
+        }
+        public void Checkout_User()
+        {
+            Navigation.PushAsync(new Checkout(Total));
         }
     }
 }

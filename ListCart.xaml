@@ -2,32 +2,46 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DocumentDBTodo.ListCart">
-  <ListView x:Name="MyListView"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <ListView x:Name="MyListView"
             ItemsSource="{Binding Items}"
             ItemTapped="Handle_ItemTapped"
             CachingStrategy="RecycleElement">
-            
-    <!--Built in Cells-->
-    <ListView.ItemTemplate>
+
+
+            <!--Built in Cells-->
+            <!--<ListView.ItemTemplate>
         <DataTemplate>
             <TextCell Text="{Binding .}" />
         </DataTemplate>
-    </ListView.ItemTemplate>
-    
-    <!--Custom View Cells-->
-    <!--
-    <ListView.ItemTemplate>
-      <DataTemplate>
-        <ViewCell>
-          <StackLayout>
-            <Label Text="{Binding Text}" 
+    </ListView.ItemTemplate>-->
+
+            <!--Custom View Cells-->
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout>
+                            <Label Text="{Binding Name}" 
                    Style="{DynamicResource ListItemTextStyle}" />
-            <Label Text="{Binding Detail}" 
+                            <Label Text="{Binding Price}" 
                    Style="{DynamicResource ListItemDetailTextStyle}"/>
-          </StackLayout>
-        </ViewCell>
-      </DataTemplate>
-    </ListView.ItemTemplate>
-    -->
-  </ListView>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+        <StackLayout Orientation="Horizontal">
+            <Label Text="Total" TextColor="Black"/>
+            <Label x:Name="TotalLabel"  TextColor="Black"/>
+        </StackLayout>
+        <Button Text="Checkout" HorizontalOptions="CenterAndExpand" VerticalOptions="End" BackgroundColor="Maroon" Clicked="Checkout_User" Margin="20,10,20,0"/>
+    </Grid>
+
 </ContentPage>

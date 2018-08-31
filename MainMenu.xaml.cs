@@ -24,10 +24,33 @@ namespace DocumentDBTodo
             if (item == null)
                 return;
 
-            var page = (Page)Activator.CreateInstance(item.TargetType);
-            page.Title = item.Title;
+            string newPageTitle = item.Title;
+            if (newPageTitle == "Concessions")
+            {
+                Detail= new NavigationPage(new ListConcessions());
 
-            Detail = new NavigationPage(page);
+            }
+            else if (newPageTitle == "Cart")
+            {
+
+                Detail= new NavigationPage(new ListCart());
+            }
+            else if (newPageTitle == "Orders")
+            {
+                Detail= new NavigationPage(new ListOrders());
+            }
+            else if (newPageTitle == "Account")
+            {
+                Detail=new NavigationPage(new AccountPage());
+            }
+            else if (newPageTitle == "Log Out")
+            {
+                Application.Current.MainPage = new NavigationPage(new Login());
+            }
+            else
+            {
+                Application.Current.MainPage = new NavigationPage(new Login());
+            }
             IsPresented = false;
 
             MasterPage.ListView.SelectedItem = null;

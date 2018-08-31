@@ -74,7 +74,7 @@ namespace DocumentDBTodo
             ExistingUser.CurrentSection = thisUser.CurrentSection;
             ExistingUser.Seat = thisUser.Seat;
             var update = await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseId, userCollection, ExistingUser.Id), ExistingUser);
-
+            App.currentUser = ExistingUser;
         }
         public async Task<List<Concession>> GetConcessions()
         {
@@ -85,6 +85,35 @@ namespace DocumentDBTodo
                 newList.AddRange(await theseConcessions.ExecuteNextAsync<Concession>());
             }
             return newList;
+        }
+        public async Task AddItemToCart(Item item)
+        {
+            var openOrder = client.CreateDocumentQuery<Order>(OrderLink, new FeedOptions { MaxItemCount = 1 }).Where(o =>o.IsCartOrder==1).Where(o=>o.UserId==App.currentUser.Id).AsEnumerable().FirstOrDefault();
+            if (openOrder!=null)
+            {
+                List<Item> thisOrder = new List<Item>();
+                foreach(Item itemCart in openOrder.Items)
+                {
+                    thisOrder.Add(itemCart);
+                }
+                thisOrder.Add(item);
+                openOrder.Items = thisOrder.ToArray();
+                var update = await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseId, orderCollection, openOrder.Id), openOrder);
+            }
+
+        }
+        public List<Item> CartItems()
+        {
+            var openOrder =  client.CreateDocumentQuery<Order>(OrderLink, new FeedOptions { MaxItemCount = 1 }).Where(o => o.IsCartOrder == 1).Where(o => o.UserId == App.currentUser.Id).AsEnumerable().FirstOrDefault();
+            List<Item> cartList = new List<Item>();
+            if(openOrder !=null)
+            {
+                foreach(Item cartItem in openOrder.Items)
+                {
+                    cartList.Add(cartItem);
+                }
+            }
+            return cartList;
         }
         //public List<TodoItem> Items { get; private set; }
 

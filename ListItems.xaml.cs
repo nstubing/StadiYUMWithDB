@@ -13,13 +13,13 @@ namespace DocumentDBTodo
     public partial class ListItems : ContentPage
     {
         public ObservableCollection<Item> Items { get; set; }
-
+        QueryManager manager;
         public ListItems(Concession thisConscession)
         {
             InitializeComponent();
 
             Items =new ObservableCollection<Item>( thisConscession.Items);
-           
+            manager = new QueryManager();
 			
 			MyListView.ItemsSource = Items;
         }
@@ -27,8 +27,8 @@ namespace DocumentDBTodo
         async void Handle_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var itemTapped = (Item)MyListView.SelectedItem;
-
-            await DisplayAlert("Item Tapped", itemTapped.Name, "OK");
+            await manager.AddItemToCart(itemTapped);
+            await DisplayAlert(itemTapped.Name, "Has been added to your cart", "OK");
 
             //Deselect Item
             ((ListView)sender).SelectedItem = null;

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DocumentDBTodo.Checkout">
+    <ContentPage.Content>
+        <StackLayout>
+            <Entry x:Name="CardNumber" Placeholder="Enter your credit card number"></Entry>
+            <StackLayout Orientation="Horizontal">
+                <Entry x:Name="ExpMonth" Placeholder="Expiry Month"></Entry>
+                <Entry x:Name="ExpYear" Placeholder="Expiry Year"></Entry>
+                <Entry x:Name="CVV" Placeholder="CVV"></Entry>
+            </StackLayout>
+            <Button Text="Complete Order" TextColor="White" BackgroundColor="Maroon" HorizontalOptions="CenterAndExpand" VerticalOptions="End" Clicked="CompleteOrder"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
