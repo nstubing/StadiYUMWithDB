@@ -23,13 +23,14 @@ namespace DocumentDBTodo
 		}
         public void CompleteOrder(Object sender, EventArgs e)
         {
+            Total += Int32.Parse(TipEntry.Text);
             CardInfo newCard = new CardInfo();
             newCard.CardNumber = CardNumber.Text;
             newCard.CardExpMonth = Int32.Parse(ExpMonth.Text);
             newCard.CardExpyear = Int32.Parse(ExpYear.Text);
             newCard.CardCVV = CVV.Text;
             var StripeToken = CreateToken(newCard);
-            StripeProcessAsync(StripeToken);
+            StripeProcess(StripeToken);
         }
         public string CreateToken(CardInfo card)
         {

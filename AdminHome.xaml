@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DocumentDBTodo.AdminHome">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button x:Name="OrderToggle2" HeightRequest="50" Clicked="OrderToggle"/>
+            <Button Text="View Sales" HeightRequest="50" BackgroundColor="#13294B" TextColor="White" Clicked="View_Sales"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

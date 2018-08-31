@@ -25,5 +25,8 @@ namespace DocumentDBTodo.Models
         [JsonProperty(PropertyName = "orders")]
 
         public Order[] Orders { get; set; }
+        [JsonProperty(PropertyName = "isEmployee")]
+
+        public int IsEmployee { get; set; }
     }
 }

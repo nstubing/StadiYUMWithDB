@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DocumentDBTodo.Models;
+using Microsoft.Azure.Documents.Spatial;
 
 namespace DocumentDBTodo
 {
@@ -26,7 +27,7 @@ namespace DocumentDBTodo
         private Uri OrderLink = UriFactory.CreateDocumentCollectionUri(databaseId, orderCollection);
         private Uri ConcessionLink = UriFactory.CreateDocumentCollectionUri(databaseId, concessionCollection);
         private Uri ItemLink = UriFactory.CreateDocumentCollectionUri(databaseId, itemCollection);
-        private Uri SadiumLink = UriFactory.CreateDocumentCollectionUri(databaseId, stadiumCollection);
+        private Uri StadiumLink = UriFactory.CreateDocumentCollectionUri(databaseId, stadiumCollection);
 
         private DocumentClient client;
 
@@ -56,7 +57,7 @@ namespace DocumentDBTodo
             }
             else if (ExistingUser.Username == newUser.Username && ExistingUser.Password == newUser.Password)
             {
-                App.currentUser= newUser;
+                App.currentUser= ExistingUser;
                 return true;
             }
             else if (ExistingUser.Username == newUser.Username && ExistingUser.Password != newUser.Password)
@@ -100,7 +101,52 @@ namespace DocumentDBTodo
                 openOrder.Items = thisOrder.ToArray();
                 var update = await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseId, orderCollection, openOrder.Id), openOrder);
             }
+            else
+            {
+                var LowerConcessions = client.CreateDocumentQuery<Concession>(ConcessionLink, new FeedOptions { MaxItemCount = 1 }).Where(o => o.Name==item.ConcessionName).Where(o=>o.Section<=App.currentUser.CurrentSection).AsEnumerable();
+                var HigherConcessions = client.CreateDocumentQuery<Concession>(ConcessionLink, new FeedOptions { MaxItemCount = 1 }).Where(o => o.Name == item.ConcessionName).Where(o => o.Section > App.currentUser.CurrentSection).AsEnumerable();
+                var Lower = LowerConcessions.OrderBy(l => l.Section).FirstOrDefault();
+                var Higher = HigherConcessions.OrderByDescending(l => l.Section).FirstOrDefault(); 
 
+                //var LowerSections = ThisConcesh.Where(c => c.Section <= App.currentUser.CurrentSection).OrderBy(b=>b.Section).FirstOrDefault();
+                //var HigherSections = ThisConcesh.Where(c => c.Section > App.currentUser.CurrentSection).OrderByDescending(p=>p.Section).FirstOrDefault();
+              
+                Order myOrder = new Order();
+                myOrder.UserId = App.currentUser.Id;
+                myOrder.IsCartOrder = 1;
+                myOrder.IsCompleted = 0;
+                myOrder.Items = new Item[] { item };
+                if(Higher==null)
+                {
+                    myOrder.ConcessionId = Lower.Id;
+                }
+                else if (LowerConcessions==null)
+                {
+                    myOrder.ConcessionId = Higher.Id;
+
+                }
+                else
+                {
+                    var LowNear = App.currentUser.CurrentSection - Lower.Section;
+                    var HighNear = Higher.Section - App.currentUser.CurrentSection;
+                    if (LowNear<HighNear)
+                    {
+                        myOrder.ConcessionId = Lower.Id;
+                    }
+                    else
+                    {
+                        myOrder.ConcessionId = Higher.Id;
+                    }
+                }
+                var create = client.CreateDocumentAsync(OrderLink, myOrder);
+                
+            }
+
+        }
+        public void Stadiums()
+        {
+            var stadium = client.CreateDocumentQuery<Stadium>(StadiumLink, new FeedOptions { MaxItemCount = 1 }).Where(s => s.Id == "1").AsEnumerable().FirstOrDefault();
+            App.CurrentStadium = stadium;
         }
         public List<Item> CartItems()
         {
@@ -120,12 +166,77 @@ namespace DocumentDBTodo
             var openOrder = client.CreateDocumentQuery<Order>(OrderLink, new FeedOptions { MaxItemCount = 1 }).Where(o => o.IsCartOrder == 1).Where(o => o.UserId == App.currentUser.Id).AsEnumerable().FirstOrDefault();
             openOrder.IsCartOrder = 0;
             var update = await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseId, orderCollection, openOrder.Id), openOrder);
+            var Concessioner = client.CreateDocumentQuery<Concession>(ConcessionLink, new FeedOptions { MaxItemCount = -1 }).Where(c => c.Id == openOrder.ConcessionId).AsEnumerable().FirstOrDefault();
+            List<Order> Orders = new List<Order>();
+            foreach (Order Order in Concessioner.Orders)
+            {
+                Orders.Add(Order);
+            }
+            Orders.Add(openOrder);
+            Concessioner.Orders = Orders.ToArray();
+            var updateConcesh = await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseId, concessionCollection, Concessioner.Id), Concessioner);
         }
         public List<Order> GetOrders()
         {
             var orders = client.CreateDocumentQuery<Order>(OrderLink, new FeedOptions { MaxItemCount = 5 }).Where(o => o.UserId == App.currentUser.Id).Where(o => o.IsCartOrder == 0).AsEnumerable();
             return orders.ToList();
         }
+
+        public Stadium GetClosestStadium(Point point)
+        {
+           
+            var CloseStadium = client.CreateDocumentQuery<Stadium>(StadiumLink, new FeedOptions { MaxItemCount = 1 }).Where(S=>S.Location.Distance(point)<30).AsEnumerable().FirstOrDefault();
+            return CloseStadium;
+        }
+        public List<Order> GetConcessionsOrders()
+        {
+            var Concession = App.currentUser.Username.ToCharArray();
+            var letter = "A";
+            var letterChar = letter.ToCharArray();
+            var ConcessionQ = client.CreateDocumentQuery<Concession>(ConcessionLink, new FeedOptions { MaxItemCount = 1 }).Where(c => c.Name == "AJ Bombers").Where(c => c.Section == App.currentUser.CurrentSection).AsEnumerable().FirstOrDefault();
+            List<Order> newList = new List<Order>();
+            foreach(Order order in ConcessionQ.Orders)
+            {
+                if(order.IsCompleted==0)
+                {
+                    newList.Add(order);
+
+                }
+            }
+            return newList;
+
+        }
+        public async void GetOrderToggle()
+        {
+            if (App.CurrentStadium.IsOpen==0)
+            {
+                App.CurrentStadium.IsOpen = 1;
+            }
+            else
+            {
+                App.CurrentStadium.IsOpen = 0;
+            }
+            var updated = await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseId, stadiumCollection, App.CurrentStadium.Id), App.CurrentStadium);
+        }
+        public async void CompleteOrder(Order CompletedOrder)
+        {
+            CompletedOrder.IsCompleted = 1;
+            var update = await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseId, orderCollection, CompletedOrder.Id), CompletedOrder);
+            var Concessioner = client.CreateDocumentQuery<Concession>(ConcessionLink, new FeedOptions { MaxItemCount = -1 }).Where(c => c.Id == CompletedOrder.ConcessionId).AsEnumerable().FirstOrDefault();
+            List<Order> newList = new List<Order>();
+            foreach(Order order in Concessioner.Orders)
+            {
+                if(order.Id==CompletedOrder.Id)
+                {
+                    order.IsCompleted = 1;
+                }
+                newList.Add(order);
+            }
+            Concessioner.Orders = newList.ToArray();
+            var updateConcesh = await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseId, concessionCollection, Concessioner.Id), Concessioner);
+            
+        }
+
         //public List<TodoItem> Items { get; private set; }
 
         //public async Task<List<TodoItem>> GetTodoItemsAsync()

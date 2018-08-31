@@ -23,9 +23,24 @@ namespace DocumentDBTodo
             User newLogin = new User() { Username = UsernameInput.Text};
             newLogin.Password = PasswordInput.Text;
             bool nextPage = manager.LoginEntry(newLogin);
-            if(nextPage)
+            if(nextPage&&App.currentUser.IsEmployee==0)
             {
-                Navigation.PushAsync(new SeatInput());
+                if(App.CurrentStadium.IsOpen==0)
+                {
+                    DisplayAlert("Orders are closed", "Please wait until the stadium has enabled orders", "OK");
+                }
+                else
+                {
+                    Navigation.PushAsync(new SeatInput());
+                }
+            }
+            else if (nextPage && App.currentUser.IsEmployee == 1)
+            {
+                    Application.Current.MainPage = new LogoutEmployee();
+            }
+            else if (nextPage && App.currentUser.IsEmployee == 2)
+            {
+                Application.Current.MainPage = new Logout();
             }
             else
             {

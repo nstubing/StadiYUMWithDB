@@ -13,6 +13,9 @@ namespace DocumentDBTodo.Models
         [JsonProperty(PropertyName = "name")]
 
         public string Name { get; set; }
+        [JsonProperty(PropertyName = "orders")]
+
+        public Order[] Orders { get; set; }
         [JsonProperty(PropertyName = "section")]
 
         public int Section { get; set; }

@@ -22,6 +22,10 @@ namespace DocumentDBTodo.Models
 
 
         public string Image { get; set; }
+        [JsonProperty(PropertyName = "concessionName")]
+
+
+        public string ConcessionName { get; set; }
         [JsonProperty(PropertyName = "isInStock")]
 
         public int IsInStock { get; set; }

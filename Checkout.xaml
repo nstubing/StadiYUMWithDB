@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DocumentDBTodo.Checkout">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout VerticalOptions="End">
+            <Entry x:Name="TipEntry" Placeholder="Tip"/>
             <Entry x:Name="CardNumber" Placeholder="Enter your credit card number"></Entry>
             <StackLayout Orientation="Horizontal">
                 <Entry x:Name="ExpMonth" Placeholder="Expiry Month"></Entry>

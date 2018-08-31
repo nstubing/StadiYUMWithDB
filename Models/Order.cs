@@ -14,9 +14,9 @@ namespace DocumentDBTodo.Models
 
 
         public string UserId { get; set; }
-        [JsonProperty(PropertyName = "concession")]
+        [JsonProperty(PropertyName = "concessionId")]
 
-        public Concession Concession { get; set; }
+        public string ConcessionId { get; set; }
         [JsonProperty(PropertyName = "isCartOrder")]
 
         public int IsCartOrder { get; set; }

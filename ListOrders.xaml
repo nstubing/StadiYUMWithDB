@@ -22,9 +22,7 @@
           <StackLayout Orientation="Horizontal" VerticalOptions="Center">
             <Label Text="Order Number:" 
                    Style="{DynamicResource ListItemTextStyle}" />
-            <Label Text="{Binding Id}" 
-                   Style="{DynamicResource ListItemDetailTextStyle}"/>
-            <Label Text="Details" HorizontalOptions="End"/>
+            <Label x:Name="isCompleted"/>
         </StackLayout>
         </ViewCell>
       </DataTemplate>

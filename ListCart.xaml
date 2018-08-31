@@ -37,11 +37,11 @@
             </ListView.ItemTemplate>
 
         </ListView>
-        <StackLayout Orientation="Horizontal">
+        <StackLayout Orientation="Horizontal" Grid.Row="1">
             <Label Text="Total" TextColor="Black"/>
             <Label x:Name="TotalLabel"  TextColor="Black"/>
         </StackLayout>
-        <Button Text="Checkout" HorizontalOptions="CenterAndExpand" VerticalOptions="End" BackgroundColor="Maroon" Clicked="Checkout_User" Margin="20,10,20,0"/>
+        <Button Text="Checkout" HorizontalOptions="CenterAndExpand" VerticalOptions="End" Grid.Row="2" BackgroundColor="Maroon" Clicked="Checkout_User" Margin="20,10,20,0"/>
     </Grid>
 
 </ContentPage>

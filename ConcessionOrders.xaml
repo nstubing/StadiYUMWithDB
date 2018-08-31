@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DocumentDBTodo.ConcessionOrders">
+    <ListView x:Name="MyListView"
+            ItemTapped="Button_Clicked"
+            ItemsSource="{Binding Items}"
+            CachingStrategy="RecycleElement">
+
+        <!--Built in Cells-->
+        <!--<ListView.ItemTemplate>
+        <DataTemplate>
+            <TextCell Text="{Binding .}" />
+        </DataTemplate>
+    </ListView.ItemTemplate>-->
+
+        <!--Custom View Cells-->
+
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <!--<ViewCell.ContextActions>
+                        <MenuItem Clicked="Button_Clicked" CommandParameter="{Binding .}" Text="Complete Order" IsDestructive="True"/>
+                    </ViewCell.ContextActions>-->
+                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                        <Label Text="Order Number:" 
+                   Style="{DynamicResource ListItemTextStyle}" />
+                        <Label Text="{Binding Id}" 
+                   Style="{DynamicResource ListItemDetailTextStyle}"/>
+                        <Label Text="Details" HorizontalOptions="End"/>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+
+    </ListView>
+</ContentPage>
