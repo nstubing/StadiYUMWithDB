@@ -115,6 +115,17 @@ namespace DocumentDBTodo
             }
             return cartList;
         }
+        public async void CartFinished()
+        {
+            var openOrder = client.CreateDocumentQuery<Order>(OrderLink, new FeedOptions { MaxItemCount = 1 }).Where(o => o.IsCartOrder == 1).Where(o => o.UserId == App.currentUser.Id).AsEnumerable().FirstOrDefault();
+            openOrder.IsCartOrder = 0;
+            var update = await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseId, orderCollection, openOrder.Id), openOrder);
+        }
+        public List<Order> GetOrders()
+        {
+            var orders = client.CreateDocumentQuery<Order>(OrderLink, new FeedOptions { MaxItemCount = 5 }).Where(o => o.UserId == App.currentUser.Id).Where(o => o.IsCartOrder == 0).AsEnumerable();
+            return orders.ToList();
+        }
         //public List<TodoItem> Items { get; private set; }
 
         //public async Task<List<TodoItem>> GetTodoItemsAsync()

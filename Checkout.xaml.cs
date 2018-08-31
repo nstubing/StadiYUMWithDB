@@ -13,11 +13,13 @@ namespace DocumentDBTodo
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Checkout : ContentPage
 	{
+        QueryManager manager;
         public double Total { get; set; }
 		public Checkout (double Total)
 		{
 			InitializeComponent ();
             this.Total = Total;
+            manager = new QueryManager();
 		}
         public void CompleteOrder(Object sender, EventArgs e)
         {
@@ -27,11 +29,11 @@ namespace DocumentDBTodo
             newCard.CardExpyear = Int32.Parse(ExpYear.Text);
             newCard.CardCVV = CVV.Text;
             var StripeToken = CreateToken(newCard);
-            StripeProcess(StripeToken);
+            StripeProcessAsync(StripeToken);
         }
         public string CreateToken(CardInfo card)
         {
-            StripeConfiguration.SetApiKey("pk_test_VQtoByzEBwFhM1EKXuqI4ueC");
+            StripeConfiguration.SetApiKey("sk_test_fMQSO85L4eNQWH7LEESCbY71");
 
             var tokenOptions = new StripeTokenCreateOptions()
             {
@@ -49,24 +51,25 @@ namespace DocumentDBTodo
 
             return stripeToken.Id; // This is the token
         }
-        public void StripeProcess(string Token)
+        public async void StripeProcess(string Token)
         {
             var charge = new StripeChargeCreateOptions
             {
                 Amount = Convert.ToInt32(Total * 100), // In cents, not dollars, times by 100 to convert
                 Currency = "usd", // or the currency you are dealing with
                 Description = "StadiYUM Order",
-                SourceTokenOrExistingSourceId = Token
+                SourceTokenOrExistingSourceId = "tok_visa"
             };
 
-            var service = new StripeChargeService("pk_test_VQtoByzEBwFhM1EKXuqI4ueC");
+            var service = new StripeChargeService("sk_test_fMQSO85L4eNQWH7LEESCbY71");
 
             try
             {
                 var response = service.Create(charge);
                 if (response.Paid)
                 {
-                    DisplayAlert("Order Confirmed", "Go to Orders to view status", "OK");
+                    manager.CartFinished();
+                    await DisplayAlert("Order Confirmed", "Go to Orders to view status", "OK");
                 }
                 // Record or do something with the charge information
             }

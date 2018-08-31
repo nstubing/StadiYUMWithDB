@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
-
+using DocumentDBTodo.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -12,21 +12,14 @@ namespace DocumentDBTodo
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ListOrders : ContentPage
     {
-        public ObservableCollection<string> Items { get; set; }
+        QueryManager manager;
+        public ObservableCollection<Order> Items { get; set; }
 
         public ListOrders()
         {
             InitializeComponent();
-
-            Items = new ObservableCollection<string>
-            {
-                "Item 1",
-                "Item 2",
-                "Item 3",
-                "Item 4",
-                "Item 5"
-            };
-			
+            manager = new QueryManager();
+            Items = new ObservableCollection<Order>(manager.GetOrders());
 			MyListView.ItemsSource = Items;
         }
 
