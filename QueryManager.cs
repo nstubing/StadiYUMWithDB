@@ -47,12 +47,14 @@ namespace DocumentDBTodo
                 defaultInstance = value;
             }
         }
-        public bool LoginEntry(User newUser)
+        public async Task<bool> LoginEntry(User newUser)
         {
             var ExistingUser = client.CreateDocumentQuery<User>(UserLink, new FeedOptions { MaxItemCount = 1 }).Where(u=>u.Username==newUser.Username).AsEnumerable().FirstOrDefault();
             if (ExistingUser == null)
             {
-                App.currentUser = newUser;
+                var thisUser = await client.CreateDocumentAsync(UserLink, newUser);
+                var thisNewUser = client.CreateDocumentQuery<User>(UserLink, new FeedOptions { MaxItemCount = 1 }).Where(u => u.Username == newUser.Username).AsEnumerable().FirstOrDefault();
+                App.currentUser = thisNewUser;
                 return true;
             }
             else if (ExistingUser.Username == newUser.Username && ExistingUser.Password == newUser.Password)
@@ -76,6 +78,7 @@ namespace DocumentDBTodo
             ExistingUser.Seat = thisUser.Seat;
             var update = await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseId, userCollection, ExistingUser.Id), ExistingUser);
             App.currentUser = ExistingUser;
+            var currentseat = App.currentUser.Seat;
         }
         public async Task<List<Concession>> GetConcessions()
         {
@@ -113,6 +116,8 @@ namespace DocumentDBTodo
               
                 Order myOrder = new Order();
                 myOrder.UserId = App.currentUser.Id;
+                myOrder.OrderedSection = App.currentUser.CurrentSection;
+                myOrder.OrderedSeat = App.currentUser.Seat;
                 myOrder.IsCartOrder = 1;
                 myOrder.IsCompleted = 0;
                 myOrder.Items = new Item[] { item };
@@ -221,6 +226,7 @@ namespace DocumentDBTodo
         public async void CompleteOrder(Order CompletedOrder)
         {
             CompletedOrder.IsCompleted = 1;
+            CompletedOrder.TimeCompleted = DateTime.Now;
             var update = await client.ReplaceDocumentAsync(UriFactory.CreateDocumentUri(databaseId, orderCollection, CompletedOrder.Id), CompletedOrder);
             var Concessioner = client.CreateDocumentQuery<Concession>(ConcessionLink, new FeedOptions { MaxItemCount = -1 }).Where(c => c.Id == CompletedOrder.ConcessionId).AsEnumerable().FirstOrDefault();
             List<Order> newList = new List<Order>();
@@ -229,6 +235,7 @@ namespace DocumentDBTodo
                 if(order.Id==CompletedOrder.Id)
                 {
                     order.IsCompleted = 1;
+                    order.TimeCompleted = DateTime.Now;
                 }
                 newList.Add(order);
             }

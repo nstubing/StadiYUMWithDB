@@ -19,15 +19,24 @@ namespace DocumentDBTodo
 		{
 			InitializeComponent ();
             manager = new QueryManager();
+            
+		}
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            RefreshItems();
+        }
+        public void Button_Clicked(Object sender, EventArgs e)
+        {
+            var CompletedOrder = ((MenuItem)sender);
+            var TrueOrder = CompletedOrder.CommandParameter as Order;
+            Navigation.PushAsync(new ConcessionOrderDetails(TrueOrder));
+        }    
+        public void RefreshItems()
+        {
             var Orders = manager.GetConcessionsOrders();
             Items = new ObservableCollection<Order>(Orders);
             MyListView.ItemsSource = Items;
-		}
-        public void Button_Clicked(Object sender, ItemTappedEventArgs e)
-        {
-            var CompletedOrder = (Order)MyListView.SelectedItem;
-            manager.CompleteOrder(CompletedOrder);
-            DisplayAlert("Completed", "", "OK");
-        }      
+        }
 	}
 }

@@ -28,7 +28,7 @@ namespace DocumentDBTodo
             var myPosition= await position;
             Microsoft.Azure.Documents.Spatial.Point myPoint = new Microsoft.Azure.Documents.Spatial.Point(myPosition.Latitude, myPosition.Longitude);
             var stadium = manager.GetClosestStadium(myPoint);
-            CurrentStadium = stadium;
+            //CurrentStadium = stadium;
             // Handle when your app starts
         }
 

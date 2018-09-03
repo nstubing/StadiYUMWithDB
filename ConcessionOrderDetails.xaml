@@ -1,20 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="DocumentDBTodo.ListCart">
+             x:Class="DocumentDBTodo.ConcessionOrderDetails">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
         <ListView x:Name="MyListView"
             ItemsSource="{Binding Items}"
             ItemTapped="Handle_ItemTapped"
@@ -34,20 +26,16 @@
                                     <Label Text="{Binding Price}" 
                                        Style="{DynamicResource ListItemDetailTextStyle}"/>
                                 </StackLayout>
-                               
+
                             </StackLayout>
                         </StackLayout>
-                        
+
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-
         </ListView>
-        <StackLayout Orientation="Horizontal" Grid.Row="1">
-            <Label Text="Total" TextColor="Black"/>
-            <Label x:Name="TotalLabel"  TextColor="Black"/>
-        </StackLayout>
-        <Button Text="Checkout" HorizontalOptions="CenterAndExpand" VerticalOptions="End" Grid.Row="2" BackgroundColor="Maroon" Clicked="Checkout_User" Margin="20,10,20,0"/>
+        <Button Text="Complete Order" BackgroundColor="Maroon" TextColor="White" Clicked="CompleteOrder" Grid.Row="1"/>
+
     </Grid>
 
 </ContentPage>

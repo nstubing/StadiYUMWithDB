@@ -6,31 +6,28 @@
             ItemsSource="{Binding Items}"
             ItemTapped="Handle_ItemTapped"
             CachingStrategy="RecycleElement">
-            
-    <!--Built in Cells-->
-    <!--<ListView.ItemTemplate>
-        <DataTemplate>
+
+        <ListView.RowHeight>100</ListView.RowHeight>
+        <ListView.ItemTemplate>
+            <DataTemplate>
                 <ViewCell>
-                    <Label Text="{Binding Name}" TextColor="Black"/>
-                    <Label Text="Add to cart"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Image Source="{Binding Image}" HeightRequest="100" WidthRequest="100"/>
+                        <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+                            <Label Text="{Binding Name}" 
+                                        Style="{DynamicResource ListItemTextStyle}" />
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Price:"/>
+                                <Label Text="{Binding Price}" 
+                                       Style="{DynamicResource ListItemDetailTextStyle}"/>
+                            </StackLayout>
+
+                        </StackLayout>
+                    </StackLayout>
+
                 </ViewCell>
             </DataTemplate>
-    </ListView.ItemTemplate>-->
-    
-    <!--Custom View Cells-->
-    
-    <ListView.ItemTemplate>
-      <DataTemplate>
-        <ViewCell>
-          <StackLayout>
-            <Label Text="{Binding Name}" 
-                   Style="{DynamicResource ListItemTextStyle}" />
-            <Label Text="Add to cart" 
-                   Style="{DynamicResource ListItemDetailTextStyle}"/>
-          </StackLayout>
-        </ViewCell>
-      </DataTemplate>
-    </ListView.ItemTemplate>
-    
-  </ListView>
+        </ListView.ItemTemplate>
+
+    </ListView>
 </ContentPage>

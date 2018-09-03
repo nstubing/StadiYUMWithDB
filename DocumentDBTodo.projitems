@@ -30,6 +30,10 @@
       <DependentUpon>Checkout.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ConcessionOrderDetails.xaml.cs">
+      <DependentUpon>ConcessionOrderDetails.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)ConcessionOrders.xaml.cs">
       <DependentUpon>ConcessionOrders.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -108,6 +112,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\Order.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Stadium.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\User.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OrderConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)QueryManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SeatInput.xaml.cs">
       <DependentUpon>SeatInput.xaml</DependentUpon>
@@ -226,6 +231,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)LogoutEmployeeDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)ConcessionOrderDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

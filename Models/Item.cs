@@ -18,7 +18,7 @@ namespace DocumentDBTodo.Models
 
 
         public double Price { get; set; }
-        [JsonProperty(PropertyName = "image")]
+        [JsonProperty(PropertyName = "imgstring")]
 
 
         public string Image { get; set; }

@@ -1,7 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:DocumentDBTodo"
              x:Class="DocumentDBTodo.ListOrders">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:OrderConverter x:Key="OrderConverter"/>
+            
+        </ResourceDictionary>
+    </ContentPage.Resources>
   <ListView x:Name="MyListView"
             ItemsSource="{Binding Items}"
             ItemTapped="Handle_ItemTapped"
@@ -20,10 +27,10 @@
       <DataTemplate>
         <ViewCell>
           <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-            <Label Text="Order Number:" 
-                   Style="{DynamicResource ListItemTextStyle}" />
-            <Label x:Name="isCompleted"/>
-        </StackLayout>
+              <Label Text="Miller Park"/>
+                        <Label Text="Status:" HorizontalOptions="End"/>
+                        <Label Text="{Binding TimeCompleted, Converter={StaticResource OrderConverter}}" HorizontalOptions="End"/>
+                    </StackLayout>
         </ViewCell>
       </DataTemplate>
     </ListView.ItemTemplate>

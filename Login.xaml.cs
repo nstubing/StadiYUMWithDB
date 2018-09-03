@@ -18,11 +18,11 @@ namespace DocumentDBTodo
             manager = new QueryManager(); 
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
             User newLogin = new User() { Username = UsernameInput.Text};
             newLogin.Password = PasswordInput.Text;
-            bool nextPage = manager.LoginEntry(newLogin);
+            bool nextPage = await manager.LoginEntry(newLogin);
             if(nextPage&&App.currentUser.IsEmployee==0)
             {
                 if(App.CurrentStadium.IsOpen==0)

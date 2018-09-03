@@ -5,7 +5,9 @@
              NavigationPage.HasNavigationBar="False"
              BackgroundImage="brewerbg.jpg"
              x:Name="LoginDetails">
-        <Grid Padding="20" ColumnSpacing="10" RowSpacing="20">
+    <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <Image AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1" Source="brewerbg.jpg" Aspect="AspectFill"/>
+        <Grid Padding="20" ColumnSpacing="10" RowSpacing="20" AbsoluteLayout.LayoutFlags="All" AbsoluteLayout.LayoutBounds="0,0,1,1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
@@ -37,6 +39,8 @@
                 ></Button>
 
         </Grid>
+    </AbsoluteLayout>
+        
 
 
 </ContentPage>

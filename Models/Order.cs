@@ -26,5 +26,11 @@ namespace DocumentDBTodo.Models
         [JsonProperty(PropertyName = "items")]
 
         public Item[] Items { get; set; }
+        [JsonProperty(PropertyName ="timeCompleted")]
+        public DateTime TimeCompleted { get; set; }
+        [JsonProperty(PropertyName ="orderedSection")]
+        public int OrderedSection { get; set; }
+        [JsonProperty(PropertyName = "orderedSeat")]
+        public int OrderedSeat { get; set; }
     }
 }

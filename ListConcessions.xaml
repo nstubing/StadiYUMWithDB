@@ -19,18 +19,18 @@
     
     <ListView.ItemTemplate>
       <DataTemplate>
-        <ViewCell>
-            <StackLayout BackgroundColor="#eee"
-                Orientation="Vertical">
-                <StackLayout Orientation="Horizontal">
-                    <!--<Image Source="{Binding Image}"
-                        HeightRequest="50"
-                        WidthRequest="50"/>-->
-                    <Label Text="{Binding Name}" TextColor="Black" HorizontalOptions="Center"/>
-                </StackLayout>
-            </StackLayout>
-        </ViewCell>
-      </DataTemplate>
+                <ViewCell>
+                    <StackLayout Orientation="Horizontal">
+                        <Image Source="{Binding Image}" HeightRequest="100" WidthRequest="175"/>
+                        <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+                            <Label Text="{Binding Name}" 
+                                        Style="{DynamicResource ListItemTextStyle}" />
+                            <Label Text="Menu"/>
+                        </StackLayout>
+                    </StackLayout>
+
+                </ViewCell>
+            </DataTemplate>
     </ListView.ItemTemplate>
     
   </ListView>

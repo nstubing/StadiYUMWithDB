@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="DocumentDBTodo.ConcessionOrders">
     <ListView x:Name="MyListView"
-            ItemTapped="Button_Clicked"
             ItemsSource="{Binding Items}"
             CachingStrategy="RecycleElement">
 
@@ -16,19 +15,28 @@
 
         <!--Custom View Cells-->
 
+        <ListView.RowHeight>60</ListView.RowHeight>
         <ListView.ItemTemplate>
             <DataTemplate>
                 <ViewCell>
-                    <!--<ViewCell.ContextActions>
-                        <MenuItem Clicked="Button_Clicked" CommandParameter="{Binding .}" Text="Complete Order" IsDestructive="True"/>
-                    </ViewCell.ContextActions>-->
-                    <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                        <Label Text="Order Number:" 
+                    <ViewCell.ContextActions>
+                        <MenuItem Clicked="Button_Clicked" CommandParameter="{Binding .}" Text="Details" IsDestructive="True"/>
+                    </ViewCell.ContextActions>
+                    <StackLayout Orientation="Vertical">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Section:" 
                    Style="{DynamicResource ListItemTextStyle}" />
-                        <Label Text="{Binding Id}" 
+                            <Label Text="{Binding OrderedSection}" 
                    Style="{DynamicResource ListItemDetailTextStyle}"/>
-                        <Label Text="Details" HorizontalOptions="End"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Seat:" 
+                   Style="{DynamicResource ListItemTextStyle}" />
+                            <Label Text="{Binding OrderedSeat}" 
+                   Style="{DynamicResource ListItemDetailTextStyle}"/>
+                        </StackLayout>
                     </StackLayout>
+                    
                 </ViewCell>
             </DataTemplate>
         </ListView.ItemTemplate>
